@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[colorinlistoftodos]{todonotes}
+\pagestyle{empty}
+
+\title{Stable Matching Report}
+\author{Rickard Bolin (ri8166bo-s) and Jonathan Lindberg (tfy13jli)}
+
+\begin{document}
+\maketitle
+\section{Results}
+The algorithm always yielded a stable marriage (given that the input is sufficient). The check-solution script said that all test were correct. The test case that took the longest time to run was Huge respectively HugeMessy which took approximately 10 seconds each. If not calculating the parsing which took the majority of the time the main algorithm took 0.5 seconds for each case. In the check-solution script, they instead took about 25 seconds each.
+%\todo[inline]{Briefly comment the results, did the script say all your solutions were correct? Approximately how long time does it take for the program to run on the largest input? What takes the majority of the time?}
+
+\section{Implementation details}
+
+The algorithm is implemented in the following way:\\
+\begin{itemize}
+    \item For each man in a queue of men:
+    \begin{itemize}
+        \item Get the preferred woman from his preference list and remove her from the preferences.
+        \item If the woman does not have a partner, make them a new pair.
+        \item Else if the woman prefers the new man to her current husband, make a new pair with the new man.
+        \item If the man is rejected, 
+        add the man to the end of the queue to propose to his new top preference next time.
+    \end{itemize}
+\end{itemize}
+\\
+\\
+In the worst case, we are looping over all N preferences of the N men, resulting in an overall running time of $O(N^2)$. When a woman is proposed to while already in a pair, she has to compare the two men in her preference list. If ordered from most preferred to least preferred, this could in the worst case be $O(N)$, resulting in a total of $O(N^3)$ for the algorithm. Instead of having the preferences of the women ordered in the same way as the preference lists of the men, we invert the preference lists of the women. That way, we can compare two men in constant time ($O(1)$), and the total time complexity will therefore be $(O(N^2)$
+\\
+\\
+The data structures used are lists for the men and women and a dictionary for "matched men" to keep track of which men are already matched while also being able to find and pop a specific man (value) quickly.
+
+\end{document}
